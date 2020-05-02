@@ -1,2 +1,2 @@
-import MyComponent from './components/MyComponent';
-export { MyComponent };
+import Hand from './components/Hand';
+export { Hand };

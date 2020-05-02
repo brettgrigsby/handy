@@ -8,8 +8,11 @@ interface Props {
   cards: Array<Card>
 }
 
-const Hand: React.FC<Props> = () => (
-  <div role='heading'>My First Component</div>
-)
+const Hand: React.FC<Props> = ({ cards }) => {
+  console.log({ cards })
+  return (
+    <div role='container'>The Hand Component</div>
+  )
+}
 
 export default Hand

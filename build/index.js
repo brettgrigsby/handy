@@ -4,7 +4,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var React = require('react');
 
-var MyComponent = function () { return (React.createElement("div", { role: 'heading' }, "My First Component")); };
+var Hand = function (_a) {
+    var cards = _a.cards;
+    console.log({ cards: cards });
+    return (React.createElement("div", { role: 'container' }, "The Hand Component"));
+};
 
-exports.MyComponent = MyComponent;
+exports.Hand = Hand;
 //# sourceMappingURL=index.js.map

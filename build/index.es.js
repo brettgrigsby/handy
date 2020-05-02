@@ -1,6 +1,10 @@
 import { createElement } from 'react';
 
-var MyComponent = function () { return (createElement("div", { role: 'heading' }, "My First Component")); };
+var Hand = function (_a) {
+    var cards = _a.cards;
+    console.log({ cards: cards });
+    return (createElement("div", { role: 'container' }, "The Hand Component"));
+};
 
-export { MyComponent };
+export { Hand };
 //# sourceMappingURL=index.es.js.map
