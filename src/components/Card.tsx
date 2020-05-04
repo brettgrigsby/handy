@@ -3,18 +3,21 @@ import useHover from '../hooks/useHover'
 
 const HOVER_TRANSFORMATIONS = { y: -40, r: 0, z: 200, s: 1.8 }
 
+type CardHandleClickFunction = (id: number) => void
+
 interface CardProps {
   x: number
   y: number
   r: number
   s: number
   z: number
-  index: number
+  cardId: number
   imgSrc: string
   cardText: string
+  handleClick: CardHandleClickFunction
 }
 
-const Card: React.FC<CardProps> = ({ x, y, z, r, s, index, imgSrc, cardText = 'no card image or text' }) => {
+const Card: React.FC<CardProps> = ({ x, y, z, r, s, cardId, imgSrc, cardText = 'no card image or text', handleClick }) => {
   const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 
   const currentTransformations = isHovered ?
@@ -23,16 +26,21 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, index, imgSrc, cardText = 'n
 
   const { y: cy, z: cz, r: cr, s:cs } = currentTransformations
 
+  const handleCardClick = () => {
+    handleClick(cardId)
+  }
+
   return(
     <>
       <div
         ref={hoverRef}
-        className={'card' + index}
+        className={'card' + cardId}
+        onClick={handleCardClick}
       >
         {!imgSrc && (<p className='card-text'>{cardText}</p>)}
       </div>
       <style jsx>{`
-        .card${index} {
+        .card${cardId} {
           position: absolute;
           bottom: 150px;
           left: calc(50% - 80px);

@@ -5,6 +5,7 @@ import { calculateTransformations } from '../utils'
 interface Card {
   imgSrc: string
   cardText: string
+  handleClick: (id: number) => void
 }
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 
+// TODO: clean up the way in which props are passed to the Card component
 const Hand: React.FC<Props> = ({ cards, height }) => {
   const { length } = cards
   const transformations = calculateTransformations(length)
@@ -22,9 +24,10 @@ const Hand: React.FC<Props> = ({ cards, height }) => {
         {transformations.map((ts, index) => (
           <Card
             key={`card=${index}`}
-            index={index}
+            cardId={index}
             imgSrc={cards[index].imgSrc}
             cardText={cards[index].cardText}
+            handleClick={cards[index].handleClick}
             {...ts}
           />
         ))}
