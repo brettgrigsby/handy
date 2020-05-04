@@ -1,4 +1,4 @@
-# Handy
+# react-handy
 
 A typescript React component for displaying and interacting with a hand of cards
 
