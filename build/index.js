@@ -67,15 +67,19 @@ function useHover() {
 
 var HOVER_TRANSFORMATIONS = { y: -40, r: 0, z: 200, s: 1.8 };
 var Card = function (_a) {
-    var x = _a.x, y = _a.y, z = _a.z, r = _a.r, s = _a.s, index = _a.index, imgSrc = _a.imgSrc, _b = _a.cardText, cardText = _b === void 0 ? 'no card image or text' : _b;
+    var x = _a.x, y = _a.y, z = _a.z, r = _a.r, s = _a.s, cardId = _a.cardId, imgSrc = _a.imgSrc, _b = _a.cardText, cardText = _b === void 0 ? 'no card image or text' : _b, handleClick = _a.handleClick;
     var _c = useHover(), hoverRef = _c[0], isHovered = _c[1];
     var currentTransformations = isHovered ?
         HOVER_TRANSFORMATIONS :
         { y: y, z: z, r: r, s: s };
     var cy = currentTransformations.y, cz = currentTransformations.z, cr = currentTransformations.r, cs = currentTransformations.s;
+    var handleCardClick = function () {
+        if (handleClick)
+            handleClick(cardId);
+    };
     return (React__default.createElement(React__default.Fragment, null,
-        React__default.createElement("div", { ref: hoverRef, className: 'card' + index }, !imgSrc && (React__default.createElement("p", { className: 'card-text' }, cardText))),
-        React__default.createElement("style", { jsx: true }, "\n        .card" + index + " {\n          position: absolute;\n          bottom: 150px;\n          left: calc(50% - 80px);\n          height: 225px;\n          width: 160px;\n          border: " + (imgSrc ? 'none' : '1px solid black') + ";\n          border-radius: 5px;\n          background-color: white;\n          background-image: " + (imgSrc ? ('url(' + imgSrc + ')') : 'none') + "; \n          background-size: cover;\n          transition: all .2s ease-in-out;\n          transform: translateX(" + x + "px) translateY(" + cy + "px) rotate(" + cr + "deg) scale(" + cs + ", " + cs + ");\n          z-index: " + cz + ";\n          box-shadow: " + (isHovered ? '3px 3px 12px 1px' : '1px 1px 3px 0px') + " #282828;\n        }\n        .card-text {\n          padding: 10px;\n        }\n      ")));
+        React__default.createElement("div", { ref: hoverRef, className: 'card' + cardId, onClick: handleCardClick }, !imgSrc && (React__default.createElement("p", { className: 'card-text' }, cardText))),
+        React__default.createElement("style", { jsx: true }, "\n        .card" + cardId + " {\n          position: absolute;\n          bottom: 150px;\n          left: calc(50% - 80px);\n          height: 225px;\n          width: 160px;\n          border: " + (imgSrc ? 'none' : '1px solid black') + ";\n          border-radius: 5px;\n          background-color: white;\n          background-image: " + (imgSrc ? ('url(' + imgSrc + ')') : 'none') + "; \n          background-size: cover;\n          transition: all .2s ease-in-out;\n          transform: translateX(" + x + "px) translateY(" + cy + "px) rotate(" + cr + "deg) scale(" + cs + ", " + cs + ");\n          z-index: " + cz + ";\n          box-shadow: " + (isHovered ? '3px 3px 12px 1px' : '1px 1px 3px 0px') + " #282828;\n        }\n        .card-text {\n          padding: 10px;\n        }\n      ")));
 };
 
 function calculateTransformations(handSize) {
@@ -111,12 +115,13 @@ function calculateTransformations(handSize) {
     return transformations;
 }
 
+// TODO: clean up the way in which props are passed to the Card component
 var Hand = function (_a) {
     var cards = _a.cards, height = _a.height;
     var length = cards.length;
     var transformations = calculateTransformations(length);
     return (React.createElement(React.Fragment, null,
-        React.createElement("div", { role: 'container', className: 'hand' }, transformations.map(function (ts, index) { return (React.createElement(Card, __assign({ key: "card=" + index, index: index, imgSrc: cards[index].imgSrc, cardText: cards[index].cardText }, ts))); })),
+        React.createElement("div", { role: 'container', className: 'hand' }, transformations.map(function (ts, index) { return (React.createElement(Card, __assign({ key: "card=" + index, cardId: index, imgSrc: cards[index].imgSrc, cardText: cards[index].cardText, handleClick: cards[index].handleClick }, ts))); })),
         React.createElement("style", { jsx: true }, "\n        .hand {\n          position: relative;\n          height: " + (height || 600) + "px;\n        }\n      ")));
 };
 

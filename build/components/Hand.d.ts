@@ -3,6 +3,7 @@ import Card from './Card';
 interface Card {
     imgSrc: string;
     cardText: string;
+    handleClick: (id: number) => void;
 }
 interface Props {
     cards: Array<Card>;
