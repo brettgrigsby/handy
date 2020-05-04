@@ -27,7 +27,7 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, cardId, imgSrc, cardText = '
   const { y: cy, z: cz, r: cr, s:cs } = currentTransformations
 
   const handleCardClick = () => {
-    handleClick(cardId)
+    if (handleClick) handleClick(cardId)
   }
 
   return(
