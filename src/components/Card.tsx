@@ -1,4 +1,7 @@
-import * as React from 'react'
+import React from 'react'
+import useHover from '../hooks/useHover'
+
+const HOVER_TRANSFORMATIONS = { x: 0, y: -40, r: 0, z: 200, s: 1.8 }
 
 interface CardProps {
   x: number
@@ -6,14 +9,26 @@ interface CardProps {
   r: number
   s: number
   z: number
-  hover: boolean
   index: number
 }
 
-const Card: React.FC<CardProps> = ({ x, y, z, r, s, hover, index }) => {
+const Card: React.FC<CardProps> = ({ x, y, z, r, s, index }) => {
+  const [hoverRef, isHovered] = useHover<HTMLDivElement>()
+
+  const currentTransformations = isHovered ?
+    HOVER_TRANSFORMATIONS :
+    { x, y, z, r, s }
+
+  const { x: cx, y: cy, z: cz, r: cr, s:cs } = currentTransformations
+
   return(
     <>
-      <div className={'card' + index}>The Card Component</div>
+      <div
+        ref={hoverRef}
+        className={'card' + index}
+      >
+        The Card Component
+      </div>
       <style jsx>{`
         .card${index} {
           position: absolute;
@@ -25,9 +40,9 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, hover, index }) => {
           border-radius: 5px;
           background-color: white;
           transition: all .2s ease-in-out;
-          transform: translateX(${x}px) translateY(${y}px) rotate(${r}deg) scale(${s}, ${s});
-          z-index: ${z};
-          box-shadow: ${hover ? '3px 3px 12px 1px' : '1px 1px 3px 0px'} #282828;
+          transform: translateX(${cx}px) translateY(${cy}px) rotate(${cr}deg) scale(${cs}, ${cs});
+          z-index: ${cz};
+          box-shadow: ${isHovered ? '3px 3px 12px 1px' : '1px 1px 3px 0px'} #282828;
         }
       `}</style>
     </>
