@@ -3,7 +3,7 @@ import useHover from '../hooks/useHover'
 
 const HOVER_TRANSFORMATIONS = { y: -40, r: 0, z: 200, s: 1.8 }
 
-type CardHandleClickFunction = (id: number) => void
+type CardHandleClickFunction = (id: string) => void
 
 interface CardProps {
   x: number
@@ -11,13 +11,13 @@ interface CardProps {
   r: number
   s: number
   z: number
-  cardId: number
+  id: string
   imgSrc: string
   cardText: string
   handleClick: CardHandleClickFunction
 }
 
-const Card: React.FC<CardProps> = ({ x, y, z, r, s, cardId, imgSrc, cardText = 'no card image or text', handleClick }) => {
+const Card: React.FC<CardProps> = ({ x, y, z, r, s, id, imgSrc, cardText = 'no card image or text', handleClick }) => {
   const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 
   const currentTransformations = isHovered ?
@@ -27,20 +27,20 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, cardId, imgSrc, cardText = '
   const { y: cy, z: cz, r: cr, s:cs } = currentTransformations
 
   const handleCardClick = () => {
-    if (handleClick) handleClick(cardId)
+    if (handleClick) handleClick(id)
   }
 
   return(
     <>
       <div
         ref={hoverRef}
-        className={'card' + cardId}
+        className={'card' + id}
         onClick={handleCardClick}
       >
         {!imgSrc && (<p className='card-text'>{cardText}</p>)}
       </div>
       <style jsx>{`
-        .card${cardId} {
+        .card${id} {
           position: absolute;
           bottom: 150px;
           left: calc(50% - 80px);

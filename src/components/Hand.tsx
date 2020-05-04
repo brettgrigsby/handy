@@ -3,9 +3,10 @@ import Card from './Card'
 import { calculateTransformations } from '../utils'
 
 interface Card {
+  id: string
   imgSrc: string
   cardText: string
-  handleClick: (id: number) => void
+  handleClick: (id: string) => void
 }
 
 interface Props {
@@ -13,24 +14,25 @@ interface Props {
   height: number
 }
 
-
-// TODO: clean up the way in which props are passed to the Card component
 const Hand: React.FC<Props> = ({ cards, height }) => {
   const { length } = cards
   const transformations = calculateTransformations(length)
   return (
     <>
       <div role='container' className='hand'>
-        {transformations.map((ts, index) => (
-          <Card
-            key={`card=${index}`}
-            cardId={index}
-            imgSrc={cards[index].imgSrc}
-            cardText={cards[index].cardText}
-            handleClick={cards[index].handleClick}
-            {...ts}
-          />
-        ))}
+        {transformations.map((ts, index) => {
+          const { id, imgSrc, cardText, handleClick } = cards[index]
+          return (
+            <Card
+              key={`card=${index}`}
+              id={id}
+              imgSrc={imgSrc}
+              cardText={cardText}
+              handleClick={handleClick}
+              {...ts}
+            />
+          )
+        })}
       </div>
       <style jsx>{`
         .hand {
