@@ -1,6 +1,6 @@
 {
-  "name": "handy",
-  "version": "1.0.0",
+  "name": "react-handy",
+  "version": "0.0.1",
   "description": "a react library for representing a hand of cards",
   "main": "build/index.js",
   "module": "build/index.es.js",
