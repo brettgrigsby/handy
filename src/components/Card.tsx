@@ -1,7 +1,7 @@
 import React from 'react'
 import useHover from '../hooks/useHover'
 
-const HOVER_TRANSFORMATIONS = { x: 0, y: -40, r: 0, z: 200, s: 1.8 }
+const HOVER_TRANSFORMATIONS = { y: -40, r: 0, z: 200, s: 1.8 }
 
 interface CardProps {
   x: number
@@ -10,16 +10,18 @@ interface CardProps {
   s: number
   z: number
   index: number
+  imgSrc: string
+  cardText: string
 }
 
-const Card: React.FC<CardProps> = ({ x, y, z, r, s, index }) => {
+const Card: React.FC<CardProps> = ({ x, y, z, r, s, index, imgSrc, cardText = 'no card image or text' }) => {
   const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 
   const currentTransformations = isHovered ?
     HOVER_TRANSFORMATIONS :
-    { x, y, z, r, s }
+    { y, z, r, s }
 
-  const { x: cx, y: cy, z: cz, r: cr, s:cs } = currentTransformations
+  const { y: cy, z: cz, r: cr, s:cs } = currentTransformations
 
   return(
     <>
@@ -27,7 +29,7 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, index }) => {
         ref={hoverRef}
         className={'card' + index}
       >
-        The Card Component
+        {!imgSrc && (<p className='card-text'>{cardText}</p>)}
       </div>
       <style jsx>{`
         .card${index} {
@@ -36,13 +38,18 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, index }) => {
           left: calc(50% - 80px);
           height: 225px;
           width: 160px;
-          border: 1px solid black;
+          border: ${imgSrc ? 'none' : '1px solid black'};
           border-radius: 5px;
           background-color: white;
+          background-image: ${imgSrc ? ('url(' + imgSrc + ')') : 'none'}; 
+          background-size: cover;
           transition: all .2s ease-in-out;
-          transform: translateX(${cx}px) translateY(${cy}px) rotate(${cr}deg) scale(${cs}, ${cs});
+          transform: translateX(${x}px) translateY(${cy}px) rotate(${cr}deg) scale(${cs}, ${cs});
           z-index: ${cz};
           box-shadow: ${isHovered ? '3px 3px 12px 1px' : '1px 1px 3px 0px'} #282828;
+        }
+        .card-text {
+          padding: 10px;
         }
       `}</style>
     </>
