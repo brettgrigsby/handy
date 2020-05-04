@@ -2,7 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
 var React = require('react');
+var React__default = _interopDefault(React);
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -30,11 +33,49 @@ var __assign = function() {
     return __assign.apply(this, arguments);
 };
 
+function useHover() {
+    var _a = React.useState(false), isHovering = _a[0], setIsHovering = _a[1];
+    var isTouched = false;
+    var ref = React.useRef(null); // TODO: find more constrained type to satisfy this useRef
+    var handleMouseEnter = function () {
+        if (!isTouched) {
+            setIsHovering(true);
+        }
+        isTouched = false;
+    };
+    var handleMouseLeave = function () {
+        setIsHovering(false);
+    };
+    var handleTouch = function () {
+        isTouched = true;
+    };
+    React.useEffect(function () {
+        var element = ref.current;
+        if (element) {
+            element.addEventListener('mouseenter', handleMouseEnter);
+            element.addEventListener('mouseleave', handleMouseLeave);
+            element.addEventListener('touchstart', handleTouch);
+            return function () {
+                element.removeEventListener('mouseenter', handleMouseEnter);
+                element.removeEventListener('mouseleave', handleMouseLeave);
+                element.removeEventListener('touchend', handleTouch);
+            };
+        }
+    }, [ref.current]);
+    return [ref, isHovering];
+}
+
+var HOVER_TRANSFORMATIONS = { x: 0, y: -40, r: 0, z: 200, s: 1.8 };
 var Card = function (_a) {
-    var x = _a.x, y = _a.y, z = _a.z, r = _a.r, s = _a.s, hover = _a.hover, index = _a.index;
-    return (React.createElement(React.Fragment, null,
-        React.createElement("div", { className: 'card' + index }, "The Card Component"),
-        React.createElement("style", { jsx: true }, "\n        .card" + index + " {\n          position: absolute;\n          bottom: 150px;\n          left: calc(50% - 80px);\n          height: 225px;\n          width: 160px;\n          border: 1px solid black;\n          border-radius: 5px;\n          background-color: white;\n          transition: all .2s ease-in-out;\n          transform: translateX(" + x + "px) translateY(" + y + "px) rotate(" + r + "deg) scale(" + s + ", " + s + ");\n          z-index: " + z + ";\n          box-shadow: " + (hover ? '3px 3px 12px 1px' : '1px 1px 3px 0px') + " #282828;\n        }\n      ")));
+    var x = _a.x, y = _a.y, z = _a.z, r = _a.r, s = _a.s, index = _a.index;
+    var _b = useHover(), hoverRef = _b[0], isHovered = _b[1];
+    var currentTransformations = isHovered ?
+        HOVER_TRANSFORMATIONS :
+        { x: x, y: y, z: z, r: r, s: s };
+    var cx = currentTransformations.x, cy = currentTransformations.y, cz = currentTransformations.z, cr = currentTransformations.r, cs = currentTransformations.s;
+    return (React__default.createElement(React__default.Fragment, null,
+        React__default.createElement("div", { ref: hoverRef, className: 'card' + index }, "The Card Component"),
+        React__default.createElement("style", { jsx: true }, "\n        .card" + index + " {\n          position: absolute;\n          bottom: 150px;\n          left: calc(50% - 80px);\n          height: 225px;\n          width: 160px;\n          border: 1px solid black;\n          border-radius: 5px;\n          background-color: white;\n          transition: all .2s ease-in-out;\n          transform: translateX(" + cx + "px) translateY(" + cy + "px) rotate(" + cr + "deg) scale(" + cs + ", " + cs + ");\n          z-index: " + cz + ";\n          box-shadow: " + (isHovered ? '3px 3px 12px 1px' : '1px 1px 3px 0px') + " #282828;\n        }\n      ")));
 };
 
 function calculateTransformations(handSize) {
