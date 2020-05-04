@@ -6,6 +6,8 @@ interface CardProps {
     s: number;
     z: number;
     index: number;
+    imgSrc: string;
+    cardText: string;
 }
 declare const Card: React.FC<CardProps>;
 export default Card;
