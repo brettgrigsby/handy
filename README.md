@@ -25,6 +25,11 @@ const MyComponent = () => {
 }
 ```
 
+You may add an arbitrary number of cards to a Hand, but allowing large numbers of cards in a player's
+hand is not just bad game design, it will also result in choppy animations and difficulty selecting
+the correct card. Ongoing development will focus on solving these issues around UX and performance,
+but this package does not seek to enforce arbitrary restrictions on what you decide to do.
+
 ### Example
 
 [Here's a simple NextJs app](https://github.com/brettgrigsby/handy-example) that uses the Handy library.
