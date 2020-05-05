@@ -6,6 +6,15 @@
     "type": "git",
     "url": "https://github.com/brettgrigsby/handy"
   },
+  "keywords": [
+    "game",
+    "board game",
+    "card game",
+    "card",
+    "cards",
+    "react",
+    "component"
+  ],
   "main": "build/index.js",
   "module": "build/index.es.js",
   "jsnext:main": "build/index.es.js",
