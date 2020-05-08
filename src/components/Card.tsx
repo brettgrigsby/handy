@@ -26,8 +26,8 @@ interface CardProps {
 }
 
 type ListenerEvent = {
-  screenX: number
-  screenY: number
+  pageX: number
+  pageY: number
 }
 
 let heldListener: (e: ListenerEvent) => void
@@ -48,14 +48,14 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, id, imgSrc, cardText = 'no c
   const { x: cx, y: cy, z: cz, r: cr, s: cs } = currentTransformations
 
   const handleCardClick = (e: ListenerEvent) => {
-    const { screenX, screenY } = e
+    const { pageX, pageY } = e
     if (isHeld) {
       document.removeEventListener('mousemove', heldListener)
       setIsHeld(false)
       setHoverTransformations({ ...DEFAULT_HOVER_TRANSFORMATIONS, x })
-      handleClick({ id: id, position: { x: screenX, y: screenY }})
+      handleClick({ id: id, position: { x: pageX, y: pageY }})
     } else {
-      heldListener = updateHoverTransformations(screenX, screenY)
+      heldListener = updateHoverTransformations(pageX, pageY)
       document.addEventListener('mousemove', heldListener)
       setIsHeld(true)
       setHoverTransformations({ ...DEFAULT_HOVER_TRANSFORMATIONS, x })
@@ -63,9 +63,9 @@ const Card: React.FC<CardProps> = ({ x, y, z, r, s, id, imgSrc, cardText = 'no c
   }
 
   const updateHoverTransformations = (baseX: number, baseY: number) => (e: ListenerEvent) => {
-    const { screenX, screenY } = e
-    const xDiff = screenX - baseX
-    const yDiff = screenY - baseY
+    const { pageX, pageY } = e
+    const xDiff = pageX - baseX
+    const yDiff = pageY - baseY
     const { y, z, r, s } = DEFAULT_HOVER_TRANSFORMATIONS
     setHoverTransformations({ z, r, s, y: (y + yDiff), x: (x + xDiff) })
   }
