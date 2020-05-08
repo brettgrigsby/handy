@@ -2,11 +2,21 @@ import * as React from 'react'
 import Card from './Card'
 import { calculateTransformations } from '../utils'
 
+type CardClickInput = {
+  id: string
+  position: {
+    x: number
+    y: number
+  }
+}
+
+type CardHandleClickFunction = (input: CardClickInput) => void
+
 interface Card {
   id: string
   imgSrc: string
   cardText: string
-  handleClick: (id: string) => void
+  handleClick: CardHandleClickFunction
 }
 
 interface Props {
@@ -24,7 +34,7 @@ const Hand: React.FC<Props> = ({ cards, height }) => {
           const { id, imgSrc, cardText, handleClick } = cards[index]
           return (
             <Card
-              key={`card=${index}`}
+              key={`card=${id}`}
               id={id}
               imgSrc={imgSrc}
               cardText={cardText}

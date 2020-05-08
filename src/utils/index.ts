@@ -1,4 +1,7 @@
 function calculateTransformations(handSize: number): Array<any> {
+  // TODO: make 0-n handSize a table lookup instead of calculating values
+  // maybe n=10? 15? to cover the majority of use cases and have the calculations
+  // as a catch for higher numbers
   const deviation = (35.0/180.0) * Math.PI
   const min = Math.PI/2 - deviation
   const max = Math.PI/2 + deviation
