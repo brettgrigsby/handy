@@ -1,10 +1,18 @@
 import * as React from 'react';
 import Card from './Card';
+declare type CardClickInput = {
+    id: string;
+    position: {
+        x: number;
+        y: number;
+    };
+};
+declare type CardHandleClickFunction = (input: CardClickInput) => void;
 interface Card {
     id: string;
     imgSrc: string;
     cardText: string;
-    handleClick: (id: string) => void;
+    handleClick: CardHandleClickFunction;
 }
 interface Props {
     cards: Array<Card>;

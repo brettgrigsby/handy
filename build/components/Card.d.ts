@@ -1,5 +1,12 @@
 import React from 'react';
-declare type CardHandleClickFunction = (id: string) => void;
+declare type CardClickInput = {
+    id: string;
+    position: {
+        x: number;
+        y: number;
+    };
+};
+declare type CardHandleClickFunction = (input: CardClickInput) => void;
 interface CardProps {
     x: number;
     y: number;
