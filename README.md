@@ -23,7 +23,9 @@ const MyComponent = () => {
 
   // add a function to each card that fires onClick
   for (card of cards) {
-    card.handleClick = (cardId) => console.log('clicked on card with id: ', cardId)
+    card.handleClick = ({ id, position }) => {
+      console.log(`card id: ${id}; position x: ${position.x} y: ${position.y}`)
+    }
   }
 
   return (
